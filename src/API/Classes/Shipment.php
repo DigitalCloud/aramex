@@ -388,8 +388,8 @@ class Shipment implements Normalize
             'Reference1' => $this->getReference1(),
             'Reference2' => $this->getReference2(),
             'Reference3' => $this->getReference3(),
-            'Shipper' => $this->getShipper()->normalize(),
-            'Consignee' => $this->getConsignee()->normalize(),
+            'Shipper' => optional($this->getShipper())->normalize(),
+            'Consignee' => optional($this->getConsignee())->normalize(),
             'ThirdParty' => optional($this->getThirdParty())->normalize(),
             'ShippingDateTime' => $this->getShippingDateTime(),
             'DueDate' => $this->getDueDate(),
@@ -397,7 +397,7 @@ class Shipment implements Normalize
             'PickupLocation' => $this->getPickupLocation(),
             'OperationsInstructions' => $this->getOperationsInstructions(),
             'AccountingInstructions' => $this->getAccountingInstructions(),
-            'Details' => $this->getDetails()->normalize(),
+            'Details' => optional($this->getDetails())->normalize(),
             'Attachments' => $this->getAttachments() ? array_map(function ($item) {
                 return $item->normalize();
             }, $this->getAttachments()) : [],

@@ -19,19 +19,14 @@ class Shipping extends API implements Normalize
     public function create()
     {
         $this->validate();
-//        dd($this->normalize());
         return $this->soapClient->CreateShipments($this->normalize());
     }
 
     protected function validate()
     {
-//        if (!$this->destinationAddress) {
-//            throw new \Exception('Destination Address not provided');
-//        }
-//
-//        if (!$this->shipmentDetails) {
-//            throw new \Exception('Shipment Details not provided');
-//        }
+        if (!sizeof($this->shipments)) {
+            throw new \Exception('Shipments are not provided');
+        }
     }
 
     /**

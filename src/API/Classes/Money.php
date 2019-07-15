@@ -65,4 +65,16 @@ class Money implements Normalize
             'Value' => $this->getValue()
         ];
     }
+
+    /**
+     * @param object $obj
+     * @return Money
+     */
+    public static function parse($obj)
+    {
+        if (!$obj)
+            return new self();
+
+        return (new self())->setCurrencyCode(object_get($obj, "CurrencyCode"))->setValue(object_get($obj, "Value"));
+    }
 }

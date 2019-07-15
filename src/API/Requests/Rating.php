@@ -7,6 +7,7 @@ namespace DigitalCloud\Aramex\API\Requests;
 use DigitalCloud\Aramex\API\Classes\Address;
 use DigitalCloud\Aramex\API\Classes\ShipmentDetails;
 use DigitalCloud\Aramex\API\Interfaces\Normalize;
+use DigitalCloud\Aramex\API\Response\RateResponse;
 
 class Rating extends API implements Normalize
 {
@@ -16,12 +17,16 @@ class Rating extends API implements Normalize
     private $preferredCurrencyCode;
 
     protected $live_wsdl = 'https://ws.aramex.net/ShippingAPI.V2/RateCalculator/Service_1_0.svc?wsdl';
-    protected $test_wsdl = 'https://ws.dev.aramex.net/ShippingAPI.V2/RateCalculator/Service_1_0.svc?wsdl';
+    protected $test_wsdl = 'https://ws.aramex.net/ShippingAPI.V2/RateCalculator/Service_1_0.svc?wsdl';
 
+    /**
+     * @return RateResponse
+     */
     public function calculate()
     {
         $this->validate();
-        return $this->soapClient->CalculateRate($this->normalize());
+
+        return RateResponse::make($this->soapClient->CalculateRate($this->normalize()));
     }
 
     /**

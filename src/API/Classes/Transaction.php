@@ -113,4 +113,17 @@ class Transaction implements Normalize
             'Reference5' => $this->getReference5()
         ];
     }
+
+    /**
+     * @param $obj
+     * @return Transaction
+     */
+    public static function parse($obj)
+    {
+        if (!$obj)
+            return new self();
+
+        return (new self())->setReference1($obj->Reference1)->setReference2($obj->Reference2)
+            ->setReference3($obj->Reference3)->setReference4($obj->Reference4)->setReference5($obj->Reference4);
+    }
 }
