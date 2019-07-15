@@ -6,8 +6,9 @@ namespace DigitalCloud\Aramex\API\Requests;
 
 use DigitalCloud\Aramex\API\Classes\ClientInfo;
 use DigitalCloud\Aramex\API\Classes\Transaction;
+use DigitalCloud\Aramex\API\Interfaces\Normalize;
 
-abstract class API
+abstract class API implements Normalize
 {
     /**
      * @var \SoapClient $soapClient
@@ -141,7 +142,7 @@ abstract class API
         return config("aramex.$this->environment.number");
     }
 
-    public function normalize()
+    public function normalize(): array
     {
         return [
             'ClientInfo' => $this->getClientInfo()->normalize(),

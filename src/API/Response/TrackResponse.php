@@ -4,27 +4,25 @@
 namespace DigitalCloud\Aramex\API\Response;
 
 
-use DigitalCloud\Aramex\API\Classes\Money;
-
-class RateResponse extends Response
+class TrackResponse extends Response
 {
-    private $totalAmount;
+    private $results;
 
     /**
-     * @return Money
+     * @return mixed
      */
-    public function getTotalAmount()
+    public function getResults()
     {
-        return $this->totalAmount;
+        return $this->results;
     }
 
     /**
-     * @param Money $totalAmount
+     * @param $results
      * @return $this
      */
-    public function setTotalAmount(Money $totalAmount)
+    public function setResults($results)
     {
-        $this->totalAmount = $totalAmount;
+        $this->results = $results;
         return $this;
     }
 
@@ -36,7 +34,6 @@ class RateResponse extends Response
     {
         parent::parse($obj);
 
-        $this->setTotalAmount(Money::parse($obj->TotalAmount));
 
         return $this;
     }
