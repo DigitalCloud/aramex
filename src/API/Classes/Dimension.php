@@ -1,10 +1,12 @@
 <?php
 
 
-namespace DigitalCloud\Aramex\API\Classes\Rate;
+namespace DigitalCloud\Aramex\API\Classes;
 
 
-class Dimension
+use DigitalCloud\Aramex\API\Interfaces\Normalize;
+
+class Dimension implements Normalize
 {
     private $length;
     private $width;
@@ -20,6 +22,7 @@ class Dimension
     }
 
     /**
+     * Measurements required in calculating the Chargeable Weight, If any of the Dimensional values are filled then the rest must be filled.
      * @param float $length
      * @return $this
      */
@@ -38,6 +41,7 @@ class Dimension
     }
 
     /**
+     * Measurements required in calculating the Chargeable Weight, If any of the Dimensional values are filled then the rest must be filled.
      * @param float $width
      * @return $this
      */
@@ -56,6 +60,7 @@ class Dimension
     }
 
     /**
+     * Measurements required in calculating the Chargeable Weight, If any of the Dimensional values are filled then the rest must be filled.
      * @param float $height
      * @return $this
      */
@@ -74,6 +79,9 @@ class Dimension
     }
 
     /**
+     * Measurement Unit, If any of the Dimensional values are filled then the rest must be filled.
+     CM = Centimeter
+     M = Meter
      * @param string $unit
      * @return $this
      */
@@ -101,7 +109,7 @@ class Dimension
         return $this->setUnit('M');
     }
 
-    public function getForRequest()
+    public function normalize(): array
     {
         return [
             'Length' => $this->getLength(),

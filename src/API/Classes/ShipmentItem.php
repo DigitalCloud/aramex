@@ -1,16 +1,19 @@
 <?php
 
 
-namespace DigitalCloud\Aramex\API\Classes\Rate;
+namespace DigitalCloud\Aramex\API\Classes;
 
 
-class ShipmentItem
+use DigitalCloud\Aramex\API\Interfaces\Normalize;
+
+class ShipmentItem implements Normalize
 {
 
     private $packageType;
     private $quantity;
     private $weight;
     private $comments;
+    private $reference;
 
     /**
      * @return string
@@ -21,6 +24,7 @@ class ShipmentItem
     }
 
     /**
+     * Type of packaging, for example. Cans, bottles, degradable Plastic. Conditional: If any of the Item element values are filled then the rest must be filled.
      * @param string $packageType
      * @return $this
      */
@@ -39,6 +43,7 @@ class ShipmentItem
     }
 
     /**
+     * Number of items
      * @param int $quantity
      * @return $this
      */
@@ -57,6 +62,7 @@ class ShipmentItem
     }
 
     /**
+     * Total Weight of the Items
      * @param Weight $weight
      * @return $this
      */
@@ -75,6 +81,7 @@ class ShipmentItem
     }
 
     /**
+     * Additional Comments or Information about the items
      * @param string $comments
      * @return $this
      */
@@ -84,13 +91,36 @@ class ShipmentItem
         return $this;
     }
 
-    public function getForRequest()
+
+    /**
+     * @return string
+     */
+    public function getReference()
+    {
+        return $this->reference;
+    }
+
+    /**
+     * @param string $reference
+     * @return $this
+     */
+    public function setReference(string $reference)
+    {
+        $this->reference = $reference;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function normalize(): array
     {
         return [
             'PackageType' => $this->getPackageType(),
             'Quantity' => $this->getQuantity(),
-            'Weight' => optional($this->getWeight())->getForRequest(),
-            'Comments' => $this->getComments()
+            'Weight' => optional($this->getWeight())->normalize(),
+            'Comments' => $this->getComments(),
+            'Reference' => $this->getReference()
         ];
     }
 }

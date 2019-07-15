@@ -1,11 +1,11 @@
 <?php
 
 
-namespace DigitalCloud\Aramex\API;
+namespace DigitalCloud\Aramex\API\Requests;
 
 
 use DigitalCloud\Aramex\API\Classes\ClientInfo;
-use DigitalCloud\Aremex\API\Classes\Transaction;
+use DigitalCloud\Aramex\API\Classes\Transaction;
 
 abstract class API
 {
@@ -136,11 +136,16 @@ abstract class API
         return $this;
     }
 
-    public function getForRequest()
+    public function getAccountNumber()
+    {
+        return config("aramex.$this->environment.number");
+    }
+
+    public function normalize()
     {
         return [
-            'ClientInfo' => $this->getClientInfo()->getForRequest(),
-            'Transaction' => optional($this->getTransaction())->getForRequest()
+            'ClientInfo' => $this->getClientInfo()->normalize(),
+            'Transaction' => optional($this->getTransaction())->normalize()
         ];
     }
 }

@@ -4,7 +4,9 @@
 namespace DigitalCloud\Aramex\API\Classes;
 
 
-class ClientInfo
+use DigitalCloud\Aramex\API\Interfaces\Normalize;
+
+class ClientInfo implements Normalize
 {
     private $accountCountryCode;
     private $accountEntity;
@@ -161,7 +163,7 @@ class ClientInfo
         return $this->setVersion('v2.0');
     }
 
-    public function getForRequest()
+    public function normalize(): array
     {
         return [
             'AccountCountryCode' => $this->getAccountCountryCode(),

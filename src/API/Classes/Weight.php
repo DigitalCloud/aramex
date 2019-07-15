@@ -1,10 +1,12 @@
 <?php
 
 
-namespace DigitalCloud\Aramex\API\Classes\Rate;
+namespace DigitalCloud\Aramex\API\Classes;
 
 
-class Weight
+use DigitalCloud\Aramex\API\Interfaces\Normalize;
+
+class Weight implements Normalize
 {
     private $unit;
     private $value;
@@ -18,6 +20,7 @@ class Weight
     }
 
     /**
+     * Unit of the weight
      * @param string $unit
      * @return $this
      */
@@ -36,6 +39,8 @@ class Weight
     }
 
     /**
+     * Shipment weight.
+    If the Data Entity ‘Dimensions’ are filled, charging weight is compared to actual and the highest value is filled here.
      * @param float $value
      * @return $this
      */
@@ -63,7 +68,7 @@ class Weight
         return $this->setUnit('LB');
     }
 
-    public function getForRequest()
+    public function normalize(): array
     {
         return [
             'Unit' => $this->getUnit(),

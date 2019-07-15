@@ -1,17 +1,19 @@
 <?php
 
 
-namespace DigitalCloud\Aramex\API;
+namespace DigitalCloud\Aramex\API\Requests;
 
 
-use DigitalCloud\Aramex\API\Classes\Rate\Address;
-use DigitalCloud\Aramex\API\Classes\Rate\ShipmentDetails;
+use DigitalCloud\Aramex\API\Classes\Address;
+use DigitalCloud\Aramex\API\Classes\ShipmentDetails;
+use DigitalCloud\Aramex\API\Interfaces\Normalize;
 
-class Rating extends API
+class Rating extends API implements Normalize
 {
     private $originalAddress;
     private $destinationAddress;
     private $shipmentDetails;
+    private $preferredCurrencyCode;
 
     protected $live_wsdl = 'https://ws.aramex.net/ShippingAPI.V2/RateCalculator/Service_1_0.svc?wsdl';
     protected $test_wsdl = 'https://ws.dev.aramex.net/ShippingAPI.V2/RateCalculator/Service_1_0.svc?wsdl';
@@ -19,7 +21,7 @@ class Rating extends API
     public function calculate()
     {
         $this->validate();
-        return $this->soapClient->CalculateRate($this->getForRequest());
+        return $this->soapClient->CalculateRate($this->normalize());
     }
 
     /**
@@ -76,6 +78,25 @@ class Rating extends API
         return $this;
     }
 
+
+    /**
+     * @return string
+     */
+    public function getPreferredCurrencyCode()
+    {
+        return $this->preferredCurrencyCode;
+    }
+
+    /**
+     * @param string $preferredCurrencyCode
+     * @return $this
+     */
+    public function setPreferredCurrencyCode(string $preferredCurrencyCode)
+    {
+        $this->preferredCurrencyCode = $preferredCurrencyCode;
+        return $this;
+    }
+
     protected function validate()
     {
         Parent::validate();
@@ -93,12 +114,14 @@ class Rating extends API
         }
     }
 
-    public function getForRequest()
+    public function normalize(): array
     {
         return array_merge([
-            'OriginAddress' => $this->getOriginalAddress()->getForRequest(),
-            'DestinationAddress' => $this->getDestinationAddress()->getForRequest(),
-            'ShipmentDetails' => $this->getShipmentDetails()->getForRequest()
-        ], parent::getForRequest());
+            'OriginAddress' => $this->getOriginalAddress()->normalize(),
+            'DestinationAddress' => $this->getDestinationAddress()->normalize(),
+            'ShipmentDetails' => $this->getShipmentDetails()->normalize(),
+            'PreferredCurrencyCode' => $this->getPreferredCurrencyCode()
+        ], parent::normalize());
     }
+
 }

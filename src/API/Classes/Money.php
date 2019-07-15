@@ -1,10 +1,12 @@
 <?php
 
 
-namespace DigitalCloud\Aramex\API\Classes\Rate;
+namespace DigitalCloud\Aramex\API\Classes;
 
 
-class Money
+use DigitalCloud\Aramex\API\Interfaces\Normalize;
+
+class Money implements Normalize
 {
     private $currencyCode;
     private $value;
@@ -18,6 +20,7 @@ class Money
     }
 
     /**
+     * 3-Letter Standard ISO Currency Code
      * @param string $currencyCode
      * @return $this
      */
@@ -45,6 +48,7 @@ class Money
     }
 
     /**
+     * The Monetary value.
      * @param float $value
      * @return $this
      */
@@ -54,7 +58,7 @@ class Money
         return $this;
     }
 
-    public function getForRequest()
+    public function normalize(): array
     {
         return [
             'CurrencyCode' => $this->getCurrencyCode(),

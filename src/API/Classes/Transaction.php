@@ -1,9 +1,11 @@
 <?php
 
 
-namespace DigitalCloud\Aremex\API\Classes;
+namespace DigitalCloud\Aramex\API\Classes;
 
-class Transaction
+use DigitalCloud\Aramex\API\Interfaces\Normalize;
+
+class Transaction implements Normalize
 {
     private $reference1;
     private $reference2;
@@ -101,7 +103,7 @@ class Transaction
         return $this;
     }
 
-    public function getForRequest()
+    public function normalize(): array
     {
         return [
             'Reference1' => $this->getReference1(),

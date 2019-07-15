@@ -1,9 +1,11 @@
 <?php
 
 
-namespace DigitalCloud\Aramex\API\Classes\Rate;
+namespace DigitalCloud\Aramex\API\Classes;
 
-class ShipmentDetails
+use DigitalCloud\Aramex\API\Interfaces\Normalize;
+
+class ShipmentDetails implements Normalize
 {
     private $dimensions;
     private $actualWeight;
@@ -30,6 +32,7 @@ class ShipmentDetails
     }
 
     /**
+     * Measurements required in calculating the Chargeable Weight, If any of the dimensional values are filled then the rest must be filled.
      * @param Dimension $dimensions
      * @return $this
      */
@@ -48,6 +51,7 @@ class ShipmentDetails
     }
 
     /**
+     * Total actual shipment weight. If the Dimensions are filled, charging weight is compared to actual and the highest value is filled here.
      * @param Weight $actualWeight
      * @return $this
      */
@@ -84,6 +88,7 @@ class ShipmentDetails
     }
 
     /**
+     * The Nature of Shipment Contents. Example: Clothes, Electronic
      * @param string $descriptionOfGoods
      * @return $this
      */
@@ -102,6 +107,7 @@ class ShipmentDetails
     }
 
     /**
+     * The Origin of which the product in the shipment came from
      * @param string $goodsOriginCountry
      * @return $this
      */
@@ -120,6 +126,7 @@ class ShipmentDetails
     }
 
     /**
+     * Number of shipment pieces
      * @param int $numberOfPieces
      * @return $this
      */
@@ -138,6 +145,7 @@ class ShipmentDetails
     }
 
     /**
+     * EXP = Express DOM = Domestic
      * @param string $productGroup
      * @return $this
      */
@@ -243,6 +251,7 @@ class ShipmentDetails
 
 
     /**
+     * Product Type involves the specification of certain features concerning the delivery of the product
      * @param string $productType
      * @return $this
      */
@@ -279,6 +288,7 @@ class ShipmentDetails
     }
 
     /**
+     * Amount of Cash that is paid by the receiver of the package. Conditional - Based on the Services "COD" being filled.
      * @param Money $cashOnDeliveryAmount
      * @return $this
      */
@@ -297,6 +307,7 @@ class ShipmentDetails
     }
 
     /**
+     * Insurance Amount charged on shipment.
      * @param Money $insuranceAmount
      * @return $this
      */
@@ -315,6 +326,7 @@ class ShipmentDetails
     }
 
     /**
+     * Additional Cash that can be required for miscellaneous purposes.
      * @param Money $cashAdditionalAmount
      * @return $this
      */
@@ -333,6 +345,7 @@ class ShipmentDetails
     }
 
     /**
+     * Additional Services used in shipping the package, Separate by comma when selecting multiple services.
      * @param string $services
      * @return $this
      */
@@ -391,6 +404,7 @@ class ShipmentDetails
     }
 
     /**
+     * Details of the Items within a shipment. Several items can be added for a single shipment.
      * @param $items
      * @return $this
      */
@@ -419,6 +433,7 @@ class ShipmentDetails
     }
 
     /**
+     * Method of payment for shipment.
      * @param string $paymentType
      * @return $this
      */
@@ -458,25 +473,25 @@ class ShipmentDetails
         return $this->setPaymentType('T');
     }
 
-    public function getForRequest()
+    public function normalize(): array
     {
         return [
-            'Dimensions' => optional($this->getDimensions())->getForRequest(),
-            'ActualWeight' => optional($this->getActualWeight())->getForRequest(),
-            'ChargeableWeight' => optional($this->getChargeableWeight())->getForRequest(),
+            'Dimensions' => optional($this->getDimensions())->normalize(),
+            'ActualWeight' => optional($this->getActualWeight())->normalize(),
+            'ChargeableWeight' => optional($this->getChargeableWeight())->normalize(),
             'DescriptionOfGoods' => $this->getDescriptionOfGoods(),
             'GoodsOriginCountry' => $this->getGoodsOriginCountry(),
             'NumberOfPieces' => $this->getNumberOfPieces(),
             'ProductGroup' => $this->getProductGroup(),
             'ProductType' => $this->getProductType(),
             'PaymentType' => $this->getPaymentType(),
-            'CustomsValueAmount' => optional($this->getCustomsValueAmount())->getForRequest(),
-            'CashOnDeliveryAmount' => optional($this->getCashOnDeliveryAmount())->getForRequest(),
-            'InsuranceAmount' => optional($this->getInsuranceAmount())->getForRequest(),
-            'CashAdditionalAmount' => optional($this->getCashAdditionalAmount())->getForRequest(),
+            'CustomsValueAmount' => optional($this->getCustomsValueAmount())->normalize(),
+            'CashOnDeliveryAmount' => optional($this->getCashOnDeliveryAmount())->normalize(),
+            'InsuranceAmount' => optional($this->getInsuranceAmount())->normalize(),
+            'CashAdditionalAmount' => optional($this->getCashAdditionalAmount())->normalize(),
             'Services' => $this->getServices(),
             'Items' => $this->getItems() ? array_map(function ($item) {
-                return $item->getForRequest();
+                return $item->normalize();
             }, $this->getItems()) : []
         ];
     }
