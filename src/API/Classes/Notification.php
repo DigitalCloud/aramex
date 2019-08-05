@@ -4,6 +4,8 @@
 namespace DigitalCloud\Aramex\API\Classes;
 
 
+use Illuminate\Support\Facades\Log;
+
 class Notification
 {
     private $code;
@@ -56,11 +58,13 @@ class Notification
 
         if (is_object($notificationsData->Notification)) {
             $notificationsData = [$notificationsData->Notification];
+            Log::info(1);
+            Log::info(json_encode($notificationsData));
         } else {
             $notificationsData = $notificationsData->Notification;
+            Log::info(2);
+            Log::info(json_encode($notificationsData));
         }
-
-        $notificationsData = (array)$notificationsData;
 
         return array_map(function ($item) {
             return self::parse($item);
