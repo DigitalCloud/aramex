@@ -60,6 +60,8 @@ class Notification
             $notificationsData = $notificationsData->Notification;
         }
 
+        $notificationsData = (array)$notificationsData;
+
         return array_map(function ($item) {
             return self::parse($item);
         }, $notificationsData);
