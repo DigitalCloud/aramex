@@ -75,6 +75,22 @@ abstract class Response
         return !$this->hasErrors;
     }
 
+    public function getNotificationMessages()
+    {
+        return collect($this->getNotifications())->keyBy(function (Notification $notification) {
+            return $notification->getCode();
+        })->map(function (Notification $notification) {
+            return $notification->getMessage();
+        })->toArray();
+    }
+
+    public function getMessages()
+    {
+        return array_map(function (Notification $notification) {
+            return $notification->getMessage();
+        }, $this->getNotifications());
+    }
+
     /**
      * @return bool
      */
