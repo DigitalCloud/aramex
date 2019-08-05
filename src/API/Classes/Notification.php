@@ -54,8 +54,19 @@ class Notification
         if (!$notificationsData || !object_get($notificationsData, 'Notification'))
             return [];
 
+        if (is_object($notificationsData->Notification)) {
+            $notificationsData = [$notificationsData->Notification];
+        } else {
+            $notificationsData = $notificationsData->Notification;
+        }
+
         return array_map(function ($item) {
-            return (new self())->setCode(object_get($item, 'Code'))->setMessage(object_get($item, 'Message'));
-        }, $notificationsData->Notification);
+            return self::parse($item);
+        }, $notificationsData);
+    }
+
+    public static function parse($item)
+    {
+        return (new self())->setCode(object_get($item, 'Code'))->setMessage(object_get($item, 'Message'));
     }
 }
