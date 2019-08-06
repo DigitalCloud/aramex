@@ -149,4 +149,6 @@ abstract class API implements Normalize
             'Transaction' => optional($this->getTransaction())->normalize()
         ];
     }
+
+
 }

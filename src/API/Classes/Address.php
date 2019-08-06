@@ -55,7 +55,7 @@ class Address implements Normalize
      * @param string $line2
      * @return $this
      */
-    public function setLine2(string $line2)
+    public function setLine2(string $line2 = null)
     {
         $this->line2 = $line2;
         return $this;
@@ -74,7 +74,7 @@ class Address implements Normalize
      * @param string $line3
      * @return $this
      */
-    public function setLine3(string $line3)
+    public function setLine3(string $line3 = null)
     {
         $this->line3 = $line3;
         return $this;
@@ -112,7 +112,7 @@ class Address implements Normalize
      * @param string $stateOfProvinceCode
      * @return $this
      */
-    public function setStateOfProvinceCode(string $stateOfProvinceCode)
+    public function setStateOfProvinceCode(string $stateOfProvinceCode = null)
     {
         $this->stateOfProvinceCode = $stateOfProvinceCode;
         return $this;

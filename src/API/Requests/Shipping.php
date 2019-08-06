@@ -7,6 +7,7 @@ namespace DigitalCloud\Aramex\API\Requests;
 use DigitalCloud\Aramex\API\Classes\LabelInfo;
 use DigitalCloud\Aramex\API\Classes\Shipment;
 use DigitalCloud\Aramex\API\Interfaces\Normalize;
+use DigitalCloud\Aramex\API\Response\ShippingResponse;
 
 class Shipping extends API implements Normalize
 {
@@ -16,10 +17,16 @@ class Shipping extends API implements Normalize
     protected $live_wsdl = 'https://ws.aramex.net/ShippingAPI.V2/Shipping/Service_1_0.svc?wsdl';
     protected $test_wsdl = 'https://ws.aramex.net/ShippingAPI.V2/Shipping/Service_1_0.svc?wsdl';
 
+    /**
+     * @return ShippingResponse
+     * @throws \Exception
+     */
     public function create()
     {
         $this->validate();
-        return $this->soapClient->CreateShipments($this->normalize());
+
+        return ShippingResponse::make($this->soapClient->CreateShipments($this->normalize()));
+
     }
 
     protected function validate()
