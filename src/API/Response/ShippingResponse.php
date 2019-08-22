@@ -6,7 +6,6 @@ namespace DigitalCloud\Aramex\API\Response;
 
 use DigitalCloud\Aramex\API\Classes\Notification;
 use DigitalCloud\Aramex\API\Classes\Shipment;
-use DigitalCloud\Aramex\API\Classes\Transaction;
 
 class ShippingResponse extends Response
 {
