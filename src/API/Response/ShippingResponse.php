@@ -4,7 +4,9 @@
 namespace DigitalCloud\Aramex\API\Response;
 
 
+use DigitalCloud\Aramex\API\Classes\Notification;
 use DigitalCloud\Aramex\API\Classes\Shipment;
+use DigitalCloud\Aramex\API\Classes\Transaction;
 
 class ShippingResponse extends Response
 {
@@ -31,6 +33,11 @@ class ShippingResponse extends Response
     protected function parse($obj)
     {
         parent::parse($obj);
+
+        if ($obj->Shipments->ProcessedShipment->Notifications) {
+            $this->setHasErrors(true)
+                ->addNotifications(Notification::parseArray($obj->Shipments->ProcessedShipment->Notifications));
+        }
 
         $this->setShipments([$obj->Shipments->ProcessedShipment]);
 

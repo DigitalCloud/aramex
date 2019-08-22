@@ -50,6 +50,16 @@ abstract class Response
     }
 
     /**
+     * @param Notification[] $notifications
+     * @return $this
+     */
+    public function addNotifications(array $notifications)
+    {
+        $this->notifications = array_merge(($this->notifications ?? []), $notifications);
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function getHasErrors()
