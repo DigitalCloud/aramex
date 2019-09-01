@@ -14,18 +14,18 @@ class Aramex
      * @param bool $live
      * @return Rating
      */
-    public static function ratting(bool $live= false)
+    public static function ratting()
     {
-        return new Rating($live);
+        return new Rating();
     }
 
-    public static function shipping(bool $live= false)
+    public static function shipping()
     {
-        return new Shipping($live);
+        return new Shipping();
     }
 
-    public static function tracking(bool $live= false)
+    public static function tracking()
     {
-        return new Tracking($live);
+        return new Tracking();
     }
 }
