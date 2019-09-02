@@ -34,8 +34,11 @@ class ShippingResponse extends Response
         parent::parse($obj);
 
         if ($obj->Shipments->ProcessedShipment->Notifications) {
-            $this->setHasErrors(true)
-                ->addNotifications(Notification::parseArray($obj->Shipments->ProcessedShipment->Notifications));
+            $newNotifications = Notification::parseArray($obj->Shipments->ProcessedShipment->Notifications);
+            if ($newNotifications) {
+                $this->setHasErrors(true)
+                    ->addNotifications($newNotifications);
+            }
         }
 
         $this->setShipments([$obj->Shipments->ProcessedShipment]);
